@@ -16,6 +16,7 @@ BoostPID::BoostPID(double KP, double KI, double KD, double sample_ms, unsigned c
     last_time = 0;
     min_p = min_pwm;
     max_p = max_pwm;
+    pwmListener = 0;
     current_time = millis();
 }
 
@@ -24,7 +25,7 @@ void BoostPID::setPoint(double val)
     set_point = val;
 }
 
-void BoostPID::setInput(float val)
+void BoostPID::syncVoltage(float val)
 {
     measured_value = (double)val;
 }
@@ -35,11 +36,11 @@ bool BoostPID::canISample()
     return (current_time - last_time) >= sample_time;
 }
 
-void BoostPID::compute()
+int BoostPID::compute()
 {
     if (!canISample())
     {
-        return;
+        return (int)output;
     }
     double delta = (current_time - last_time) / 1000.0;
     error = set_point - measured_value;
@@ -47,4 +48,14 @@ void BoostPID::compute()
     derivative = (error - last_error) / delta;
     output = kp * error + ki * integral + kd * derivative;
     output = constrain(output, min_p, max_p);
+    if (pwmListener != NULL)
+    {
+        pwmListener((int)output);
+    }
+    return (int)output;
+}
+
+void BoostPID::setPwmHandler(void (*listener)(int))
+{
+    pwmListener = listener;
 }

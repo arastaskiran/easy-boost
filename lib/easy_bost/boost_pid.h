@@ -10,9 +10,10 @@ public:
     BoostPID(double KP = 1.0, double KI = 0.5, double KD = 0.2, double sample_ms = 100, unsigned char min_pwm = 0, unsigned char max_pwm = 255);
     ~BoostPID();
 
-    void compute();
+    int compute();
     void setPoint(double val);
-    void setInput(float val);
+    void syncVoltage(float val);
+    void setPwmHandler(void (*listener)(int));
 
 private:
     double kp;
@@ -31,6 +32,7 @@ private:
     unsigned char min_p;
     unsigned char max_p;
     bool canISample();
+    void (*pwmListener)(int);
 };
 
 #endif

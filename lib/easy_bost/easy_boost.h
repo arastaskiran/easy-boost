@@ -4,8 +4,10 @@
 
 #include <base_booster.h>
 
-class EasyBoost : protected BaseBooster
+class EasyBoost : public BaseBooster
 {
 public:
+    void update();
+    bool canIRead();
 };
 #endif

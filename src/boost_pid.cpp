@@ -19,6 +19,7 @@ BoostPID::BoostPID(double KP, double KI, double KD, unsigned long sample_ms, uns
     pwmListener = 0;
     current_time = millis();
 }
+
 BoostPID::~BoostPID()
 {
     delete kp;

@@ -1,4 +1,5 @@
 #include <easy_boost.h>
+
 EasyBoost::EasyBoost() : BaseBooster()
 {
     pid = nullptr;
@@ -24,6 +25,7 @@ EasyBoost::~EasyBoost()
         output_meter = nullptr;
     }
 }
+
 void EasyBoost::update()
 {
     if (!canIRead())

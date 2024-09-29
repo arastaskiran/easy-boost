@@ -7,8 +7,7 @@ BaseBooster::BaseBooster()
 
 void BaseBooster::setSourceVoltmeter(uint8_t pin, float r1, float r2)
 {
-    source_meter = new RustyVoltmeter(pin, r1, r2, 80UL);  
-   
+    source_meter = new RustyVoltmeter(pin, r1, r2, 80UL);
 }
 
 void BaseBooster::setOutputVoltmeter(uint8_t pin, float r1, float r2)

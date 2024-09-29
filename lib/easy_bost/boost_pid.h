@@ -7,24 +7,25 @@
 class BoostPID
 {
 public:
-    BoostPID(double KP = 1.0, double KI = 0.5, double KD = 0.2, double sample_ms = 100, unsigned char min_pwm = 0, unsigned char max_pwm = 255);
+    BoostPID(double KP = 1.0, double KI = 0.5, double KD = 0.2, unsigned long sample_ms = 100UL, unsigned char min_pwm = 0, unsigned char max_pwm = 255);
     ~BoostPID();
 
     int compute();
     void setPoint(double val);
     void syncVoltage(float val);
     void setPwmHandler(void (*listener)(int));
+    void reset();
 
 private:
-    double kp;
-    double ki;
-    double kd;
+    double *kp;
+    double *ki;
+    double *kd;
     double set_point;
     double error;
     double last_error;
     double integral;
     double derivative;
-    double output;
+    int output;
     double measured_value;
     unsigned long last_time;
     unsigned long sample_time;

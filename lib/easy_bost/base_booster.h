@@ -11,8 +11,7 @@
 class BaseBooster
 {
 public:
-    BaseBooster();
-    ~BaseBooster();
+    BaseBooster();  
 
     void setSourceVoltmeter(uint8_t pin, float r1, float r2);
 
@@ -29,6 +28,8 @@ public:
     void setPID(double KP = 1.0, double KI = 0.5, double KD = 0.2, double sample_ms = 100, unsigned char min_pwm = 0, unsigned char max_pwm = 255);
 
     String floatToString(float *op_val);
+
+    void setPoint(double val);
 
 protected:
     RustyVoltmeter *source_meter;

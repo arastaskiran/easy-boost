@@ -2,16 +2,18 @@
 
 BaseBooster::BaseBooster()
 {
+    pwm_pin = 0;
 }
 
 void BaseBooster::setSourceVoltmeter(uint8_t pin, float r1, float r2)
 {
-    source_meter = new RustyVoltmeter(pin, r1, r2);
+    source_meter = new RustyVoltmeter(pin, r1, r2, 80UL);  
+   
 }
 
 void BaseBooster::setOutputVoltmeter(uint8_t pin, float r1, float r2)
 {
-    output_meter = new RustyVoltmeter(pin, r1, r2);
+    output_meter = new RustyVoltmeter(pin, r1, r2, 50UL);
 }
 
 void BaseBooster::setOutputPIN(uint8_t pin)
@@ -61,4 +63,13 @@ void BaseBooster::setPWMChangeHandler(void (*listener)(int))
 String BaseBooster::floatToString(float *op_val)
 {
     return output_meter->floatToString(op_val);
+}
+
+void BaseBooster::setPoint(double val)
+{
+    if (pid == nullptr)
+    {
+        return;
+    }
+    pid->setPoint(val);
 }

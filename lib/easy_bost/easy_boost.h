@@ -7,6 +7,8 @@
 class EasyBoost : public BaseBooster
 {
 public:
+    EasyBoost();
+    ~EasyBoost();
     void update();
     bool canIRead();
 };

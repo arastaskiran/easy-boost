@@ -5,14 +5,14 @@ BaseBooster::BaseBooster()
     pwm_pin = 0;
 }
 
-void BaseBooster::setSourceVoltmeter(uint8_t pin, float r1, float r2)
+void BaseBooster::setSourceVoltmeter(uint8_t pin, float r1, float r2, float error_correction)
 {
-    source_meter = new RustyVoltmeter(pin, r1, r2, 80UL);
+    source_meter = new RustyVoltmeter(pin, r1, r2, 80UL, error_correction);
 }
 
-void BaseBooster::setOutputVoltmeter(uint8_t pin, float r1, float r2)
+void BaseBooster::setOutputVoltmeter(uint8_t pin, float r1, float r2, float error_correction)
 {
-    output_meter = new RustyVoltmeter(pin, r1, r2, 50UL);
+    output_meter = new RustyVoltmeter(pin, r1, r2, 50UL, error_correction);
 }
 
 void BaseBooster::setOutputPIN(uint8_t pin)
@@ -71,4 +71,19 @@ void BaseBooster::setPoint(double val)
         return;
     }
     pid->setPoint(val);
+}
+
+void BaseBooster::setPwmFrequency(int frequency)
+{
+    if (pwm_pin != 9 && pwm_pin != 10)
+    {
+        return;
+    }
+
+    TCCR1B = (TCCR1B & 0b11111000) | 0x01;
+    int pre_scaler = 1;
+    int topValue = (16000000 / (pre_scaler * frequency)) - 1;
+    ICR1 = topValue;
+    TCCR1A = (1 << WGM11) | (1 << COM1A1) | (1 << COM1B1);
+    TCCR1B |= (1 << WGM13) | (1 << WGM12);
 }

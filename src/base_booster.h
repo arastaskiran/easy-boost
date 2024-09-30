@@ -32,8 +32,9 @@ public:
      * @param pin The analog pin to which the source voltmeter is connected.
      * @param r1 The resistance value of the first resistor in the voltage divider.
      * @param r2 The resistance value of the second resistor in the voltage divider.
+     * @param error_correction Optional. A correction factor for adjusting any measurement errors. Default is 1. Calculation: [Actual Voltage]/[Read Voltage]
      */
-    void setSourceVoltmeter(uint8_t pin, float r1, float r2);
+    void setSourceVoltmeter(uint8_t pin, float r1, float r2, float error_correction = 1.0);
 
     /**
      * @brief Set the output voltmeter to monitor the boosted output voltage.
@@ -41,8 +42,9 @@ public:
      * @param pin The analog pin to which the output voltmeter is connected.
      * @param r1 The resistance value of the first resistor in the voltage divider.
      * @param r2 The resistance value of the second resistor in the voltage divider.
+     * @param error_correction Optional. A correction factor for adjusting any measurement errors. Default is 1. Calculation: [Actual Voltage]/[Read Voltage]
      */
-    void setOutputVoltmeter(uint8_t pin, float r1, float r2);
+    void setOutputVoltmeter(uint8_t pin, float r1, float r2, float error_correction = 1.0);
 
     /**
      * @brief Set a listener for changes in the output voltage.
@@ -107,6 +109,8 @@ public:
      * @param val The target voltage value for the boost converter.
      */
     void setPoint(double val);
+
+    void setPwmFrequency(int frequency);
 
 protected:
     RustyVoltmeter *source_meter; ///< Pointer to the source (input) voltmeter.
